@@ -13,7 +13,7 @@ Sistem informasi koperasi simpan pinjam berbasis web versi ke 2 dengan framework
 -   php artisan key:generate
 -   php artisan storage:link
 -   thats all folks
--   buy me a cup of coffee? [&#9749;](https://teer.id/apta-tea)
+-   buy me a cup of coffee? [&#9749;](https://teer.id/enpisi7)
 -   any bug, just info me on repo issues
 
 ## License

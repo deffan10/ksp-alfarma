@@ -148,5 +148,7 @@
   <!-- Page Specific JS File -->
   <script src="{{ asset('/assets/js/page/index-0.js') }}"></script>
 
+  {{-- Pastikan Livewire.js termuat di akhir sebelum </body> --}}
+  @livewireScripts
 </body>
 </html>

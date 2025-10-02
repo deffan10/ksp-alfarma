@@ -61,6 +61,32 @@ Route::get('profile', [App\Http\Controllers\ProfileController::class, 'index'])-
 
 Route::get('profile/{profile}', [App\Http\Controllers\ProfileController::class, 'show']);
 
+Route::get('/db-test', function () {
+    try {
+        \DB::connection()->getPdo();
+        return "Koneksi DB OK: " . \DB::connection()->getDatabaseName();
+    } catch (\Exception $e) {
+        return "Error: " . $e->getMessage();
+    }
+});
 
+Route::get('/cekdb', function () {
+    return [
+        'db' => env('DB_DATABASE'),
+        'user' => env('DB_USERNAME'),
+        'pass' => env('DB_PASSWORD'),
+    ];
+});
+
+use Illuminate\Support\Facades\DB;
+
+Route::get('/dbtestraw', function () {
+    try {
+        $pdo = DB::connection()->getPdo();
+        return "Connected as: " . $pdo->query("SELECT USER()")->fetchColumn();
+    } catch (\Exception $e) {
+        return $e->getMessage();
+    }
+});
 
 

@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use \setasign\fpdf\FPDF;
+//use setasign\FPDF;
 use App\Exports\UsersExport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\TransExport;
 use App\Models\Nasabah;
 use App\Models\Profile;
+
+require_once base_path('vendor/setasign/fpdf/fpdf.php');
 
 
 class LaporanController extends Controller
@@ -147,7 +149,7 @@ class LaporanController extends Controller
 
 }
 
-class pdf extends FPDF
+class pdf extends \FPDF
 {
 
     function Header()

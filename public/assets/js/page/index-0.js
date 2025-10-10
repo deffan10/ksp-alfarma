@@ -1,9 +1,12 @@
 "use strict";
 
 
-var statistics_chart = document.getElementById("myChart").getContext('2d');
+// Initialize Chart only if canvas exists and getContext() is valid
+var statisticsCanvas = document.getElementById("myChart");
+if (statisticsCanvas && statisticsCanvas.getContext) {
+  var statistics_chart = statisticsCanvas.getContext('2d');
 
-var myChart = new Chart(statistics_chart, {
+  var myChart = new Chart(statistics_chart, {
   type: 'line',
   data: {
     labels: month,
@@ -40,11 +43,13 @@ var myChart = new Chart(statistics_chart, {
       }]
     },
   }
-}); 
+  }); 
+}
 
 
-$('#visitorMap').vectorMap(
-{
+if ($('#visitorMap').length && $('#visitorMap').width() > 0 && $('#visitorMap').height() > 0) {
+  $('#visitorMap').vectorMap(
+  {
   map: 'world_en',
   backgroundColor: '#ffffff',
   borderColor: '#f2f2f2',
@@ -72,32 +77,36 @@ $('#visitorMap').vectorMap(
     ca: '<div class="jqvmap-circle"></div>',
     tr: '<div class="jqvmap-circle"></div>',
   },
-});
+  });
+}
 
 // weather
-getWeather();
-setInterval(getWeather, 600000);
+// Weather: call only if simpleWeather plugin is available
+if ($.isFunction($.simpleWeather)) {
+  getWeather();
+  setInterval(getWeather, 600000);
 
-function getWeather() {
-  $.simpleWeather({
-  location: 'Bogor, Indonesia',
-  unit: 'c',
-  success: function(weather) {
-    var html = '';
-    html += '<div class="weather">';
-    html += '<div class="weather-icon text-primary"><span class="wi wi-yahoo-' + weather.code + '"></span></div>';
-    html += '<div class="weather-desc">';
-    html += '<h4>' + weather.temp + '&deg;' + weather.units.temp + '</h4>';
-    html += '<div class="weather-text">' + weather.currently + '</div>';
-    html += '<ul><li>' + weather.city + ', ' + weather.region + '</li>';
-    html += '<li> <i class="wi wi-strong-wind"></i> ' + weather.wind.speed+' '+weather.units.speed + '</li></ul>';
-    html += '</div>';
-    html += '</div>';
+  function getWeather() {
+    $.simpleWeather({
+      location: 'Bogor, Indonesia',
+      unit: 'c',
+      success: function(weather) {
+        var html = '';
+        html += '<div class="weather">';
+        html += '<div class="weather-icon text-primary"><span class="wi wi-yahoo-' + weather.code + '"></span></div>';
+        html += '<div class="weather-desc">';
+        html += '<h4>' + weather.temp + '&deg;' + weather.units.temp + '</h4>';
+        html += '<div class="weather-text">' + weather.currently + '</div>';
+        html += '<ul><li>' + weather.city + ', ' + weather.region + '</li>';
+        html += '<li> <i class="wi wi-strong-wind"></i> ' + weather.wind.speed+' '+weather.units.speed + '</li></ul>';
+        html += '</div>';
+        html += '</div>';
 
-    $("#myWeather").html(html);
-  },
-  error: function(error) {
-    $("#myWeather").html('<div class="alert alert-danger">'+error+'</div>');
+        $("#myWeather").html(html);
+      },
+      error: function(error) {
+        $("#myWeather").html('<div class="alert alert-danger">'+error+'</div>');
+      }
+    });
   }
-  });
 }

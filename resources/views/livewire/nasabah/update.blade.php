@@ -41,6 +41,22 @@
                         @error('no_ktp')<span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
+                    <div class="form-group">
+                        <label>Foto Saat Ini</label>
+                        @if(!empty($foto) && !is_object($foto))
+                            <div><img src="{{ asset('storage/foto').'/'.$foto }}" width="120" class="img-thumbnail"></div>
+                        @elseif(is_object($foto))
+                            {{-- temporary uploaded file preview --}}
+                            <div><img src="{{ $foto->temporaryUrl() }}" width="120" class="img-thumbnail"></div>
+                        @else
+                            <div><em>Tidak ada foto</em></div>
+                        @endif
+                    </div>
+                    <div class="form-group">
+                        <label for="foto">Ganti Foto</label>
+                        <input type="file" id="foto" wire:model="foto" class="form-control">
+                        @error('foto')<span class="text-danger">{{ $message }}</span>@enderror
+                    </div>
                     <div class="modal-footer">
                     <button wire:click.prevent="update()" class="btn btn-sm btn-success fas fa-save"> Update</button>
                     <button type="button" class="btn btn-sm btn-secondary close-btn" data-dismiss="modal">Close</button>

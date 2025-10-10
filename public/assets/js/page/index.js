@@ -1,7 +1,9 @@
 "use strict";
 
-var ctx = document.getElementById("myChart").getContext('2d');
-var myChart = new Chart(ctx, {
+var mainCanvas = document.getElementById("myChart");
+if (mainCanvas && mainCanvas.getContext) {
+  var ctx = mainCanvas.getContext('2d');
+  var myChart = new Chart(ctx, {
   type: 'line',
   data: {
     labels: ["January", "February", "March", "April", "May", "June", "July", "August"],
@@ -57,15 +59,18 @@ var myChart = new Chart(ctx, {
       }]
     },
   }
-});
+  });
+}
 
-var balance_chart = document.getElementById("balance-chart").getContext('2d');
+var balanceCanvas = document.getElementById("balance-chart");
+if (balanceCanvas && balanceCanvas.getContext) {
+  var balance_chart = balanceCanvas.getContext('2d');
 
-var balance_chart_bg_color = balance_chart.createLinearGradient(0, 0, 0, 70);
-balance_chart_bg_color.addColorStop(0, 'rgba(63,82,227,.2)');
-balance_chart_bg_color.addColorStop(1, 'rgba(63,82,227,0)');
+  var balance_chart_bg_color = balance_chart.createLinearGradient(0, 0, 0, 70);
+  balance_chart_bg_color.addColorStop(0, 'rgba(63,82,227,.2)');
+  balance_chart_bg_color.addColorStop(1, 'rgba(63,82,227,0)');
 
-var myChart = new Chart(balance_chart, {
+  var myChart = new Chart(balance_chart, {
   type: 'line',
   data: {
     labels: ['16-07-2018', '17-07-2018', '18-07-2018', '19-07-2018', '20-07-2018', '21-07-2018', '22-07-2018', '23-07-2018', '24-07-2018', '25-07-2018', '26-07-2018', '27-07-2018', '28-07-2018', '29-07-2018', '30-07-2018', '31-07-2018'],
@@ -114,15 +119,18 @@ var myChart = new Chart(balance_chart, {
       }]
     },
   }
-});
+  });
+}
 
-var sales_chart = document.getElementById("sales-chart").getContext('2d');
+var salesCanvas = document.getElementById("sales-chart");
+if (salesCanvas && salesCanvas.getContext) {
+  var sales_chart = salesCanvas.getContext('2d');
 
-var sales_chart_bg_color = sales_chart.createLinearGradient(0, 0, 0, 80);
-balance_chart_bg_color.addColorStop(0, 'rgba(63,82,227,.2)');
-balance_chart_bg_color.addColorStop(1, 'rgba(63,82,227,0)');
+  var sales_chart_bg_color = sales_chart.createLinearGradient(0, 0, 0, 80);
+  sales_chart_bg_color.addColorStop(0, 'rgba(63,82,227,.2)');
+  sales_chart_bg_color.addColorStop(1, 'rgba(63,82,227,0)');
 
-var myChart = new Chart(sales_chart, {
+  var myChart = new Chart(sales_chart, {
   type: 'line',
   data: {
     labels: ['16-07-2018', '17-07-2018', '18-07-2018', '19-07-2018', '20-07-2018', '21-07-2018', '22-07-2018', '23-07-2018', '24-07-2018', '25-07-2018', '26-07-2018', '27-07-2018', '28-07-2018', '29-07-2018', '30-07-2018', '31-07-2018'],
@@ -172,7 +180,8 @@ var myChart = new Chart(sales_chart, {
       }]
     },
   }
-});
+  });
+}
 
 $("#products-carousel").owlCarousel({
   items: 3,

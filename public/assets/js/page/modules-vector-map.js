@@ -1,6 +1,8 @@
 "use strict";
 
-$('#visitorMap').vectorMap({
+// Only initialize maps if the target elements exist and have size
+if ($('#visitorMap').length && $('#visitorMap').width() > 0 && $('#visitorMap').height() > 0) {
+  $('#visitorMap').vectorMap({
   map: 'world_en',
   backgroundColor: '#ffffff',
   borderColor: '#f2f2f2',
@@ -39,8 +41,11 @@ $('#visitorMap').vectorMap({
 
     iziToast.info(opts);
   }
-});
-$('#visitorMap2').vectorMap({
+  });
+}
+
+if ($('#visitorMap2').length && $('#visitorMap2').width() > 0 && $('#visitorMap2').height() > 0) {
+  $('#visitorMap2').vectorMap({
   map: 'world_en',
   backgroundColor: '#ffffff',
   borderColor: '#f2f2f2',
@@ -63,8 +68,11 @@ $('#visitorMap2').vectorMap({
     });
     $("#flag-icon").addClass('flag-icon-' + code);
   }
-});
-$('#visitorMap3').vectorMap({
+  });
+}
+
+if ($('#visitorMap3').length && $('#visitorMap3').width() > 0 && $('#visitorMap3').height() > 0) {
+  $('#visitorMap3').vectorMap({
   map: 'indonesia_id',
   backgroundColor: '#ffffff',
   borderColor: '#f2f2f2',
@@ -76,4 +84,5 @@ $('#visitorMap3').vectorMap({
   normalizeFunction: 'linear',
   selectedRegions: false,
   showTooltip: true,
-});
+  });
+}

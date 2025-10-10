@@ -137,9 +137,27 @@ class NasabahController extends Controller
     public function update(createNasabah $request, $id)
     {
         //
-        $data = $request->all();
         $nasabah = Nasabah::find($id);
+
+        $data = $request->except(['foto']);
+
+        // handle uploaded foto
+        if ($request->hasFile('foto')) {
+            $file = $request->file('foto');
+            $name = time().'_'.preg_replace('/[^A-Za-z0-9._-]/','', $file->getClientOriginalName());
+            // move to storage/app/public/foto via public/storage symlink
+            $file->move(storage_path('app/public/foto'), $name);
+
+            // delete old file if exists
+            if (!empty($nasabah->foto) && file_exists(storage_path('app/public/foto/'.$nasabah->foto))) {
+                @unlink(storage_path('app/public/foto/'.$nasabah->foto));
+            }
+
+            $data['foto'] = $name;
+        }
+
         $nasabah->update($data);
+
         return redirect('nasabah');
     }
 

@@ -1,7 +1,9 @@
 "use strict";
 
-var ctx = document.getElementById("myChart").getContext('2d');
-var myChart = new Chart(ctx, {
+var c1 = document.getElementById("myChart");
+if (c1 && c1.getContext) {
+  var ctx = c1.getContext('2d');
+  var myChart = new Chart(ctx, {
   type: 'line',
   data: {
     labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
@@ -41,10 +43,13 @@ var myChart = new Chart(ctx, {
       }]
     },
   }
-});
+  });
+}
 
-var ctx = document.getElementById("myChart2").getContext('2d');
-var myChart = new Chart(ctx, {
+var c2 = document.getElementById("myChart2");
+if (c2 && c2.getContext) {
+  var ctx = c2.getContext('2d');
+  var myChart = new Chart(ctx, {
   type: 'bar',
   data: {
     labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
@@ -84,10 +89,13 @@ var myChart = new Chart(ctx, {
       }]
     },
   }
-});
+  });
+}
 
-var ctx = document.getElementById("myChart3").getContext('2d');
-var myChart = new Chart(ctx, {
+var c3 = document.getElementById("myChart3");
+if (c3 && c3.getContext) {
+  var ctx = c3.getContext('2d');
+  var myChart = new Chart(ctx, {
   type: 'doughnut',
   data: {
     datasets: [{
@@ -121,10 +129,13 @@ var myChart = new Chart(ctx, {
       position: 'bottom',
     },
   }
-});
+  });
+}
 
-var ctx = document.getElementById("myChart4").getContext('2d');
-var myChart = new Chart(ctx, {
+var c4 = document.getElementById("myChart4");
+if (c4 && c4.getContext) {
+  var ctx = c4.getContext('2d');
+  var myChart = new Chart(ctx, {
   type: 'pie',
   data: {
     datasets: [{
@@ -158,4 +169,5 @@ var myChart = new Chart(ctx, {
       position: 'bottom',
     },
   }
-});
+  });
+}

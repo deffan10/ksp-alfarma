@@ -4,11 +4,14 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Nasabah;
 
 class Nasaba extends Component
 {
     use WithPagination;
+    use WithFileUploads;
     protected $paginationTheme = 'bootstrap';
     public $search='';
     public $no_rekening, $nama_lengkap, $alamat, $telp, $no_ktp, $saldo_akhir, $status, $foto;
@@ -46,6 +49,8 @@ class Nasaba extends Component
         }else{
             $this->status = "Ada pinjaman";
         }
+        // keep existing foto filename to display in modal
+        $this->foto = $data->foto;
     }
 
     public function resetInputFields()
@@ -65,9 +70,14 @@ class Nasaba extends Component
             // 'foto' => 'image|max:1024',
     	]);
         if (!empty($this->foto)){
-        $name = md5($this->foto . microtime()).'.'.$this->foto->extension();          
-        $this->foto->storeAs('foto', $name, 'public');
-    	Nasabah::create([
+        // if foto is an uploaded file (UploadedFile) store it, else if it's a filename leave it
+        if (is_object($this->foto)) {
+            $name = md5($this->foto . microtime()).'.'.$this->foto->extension();          
+            $this->foto->storeAs('foto', $name, 'public');
+        } else {
+            $name = $this->foto;
+        }
+    Nasabah::create([
             'no_rekening'=> $this->no_rekening,
             'nama_lengkap'=> $this->nama_lengkap,
             'telp'=> $this->telp,
@@ -96,13 +106,28 @@ class Nasaba extends Component
             'nama_lengkap' => 'required',
         ]);
         $data = Nasabah::find($this->data_id);
-        $data->update([
+        $update = [
             'no_rekening'=> $this->no_rekening,
             'nama_lengkap'=> $this->nama_lengkap,
             'telp'=> $this->telp,
             'alamat'=> $this->alamat,
             'no_ktp'=> $this->no_ktp
-        ]);
+        ];
+
+        // handle foto upload if user provided a new file
+        if ($this->foto && is_object($this->foto)) {
+            $name = md5($this->foto . microtime()).'.'.$this->foto->extension();
+            $this->foto->storeAs('foto', $name, 'public');
+
+            // delete old file if exists
+            if (!empty($data->foto) && Storage::disk('public')->exists('foto/'.$data->foto)) {
+                Storage::disk('public')->delete('foto/'.$data->foto);
+            }
+
+            $update['foto'] = $name;
+        }
+
+        $data->update($update);
         session()->flash('pesan', 'Data telah diupdate.');
         $this->resetInputFields();
         $this->emit('nasabahStore');
